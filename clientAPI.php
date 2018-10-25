@@ -32,13 +32,13 @@ function getBodyValidateClient($channel, $clientId, $phoneNumber, $value){
         "Channel" => $channel,
         "RequestDate" => gmdate("Y-m-d\TH:i:s\\Z"),
         "MessageID" => $messageId,
-        "ClientID" => $clientId
-      ),
-      "Destination" => array(
-        "ServiceName" => "PaymentsService",
-        "ServiceOperation" => "generateCodeQR",
-        "ServiceRegion" => "C001",
-        "ServiceVersion" => "1.0.0"
+        "ClientID" => $clientId,
+        "Destination" => array(
+          "ServiceName" => "PaymentsService",
+          "ServiceOperation" => "generateCodeQR",
+          "ServiceRegion" => "C001",
+          "ServiceVersion" => "1.0.0"
+        )
       ),
       "RequestBody"  => array (
         "any" => array (
