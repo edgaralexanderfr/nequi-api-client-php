@@ -12,8 +12,10 @@ $channel = 'MF-001';
  * Encapsula el consumo del servicio de validacion de cliente del API y retorna la respuesta del servicio
  */
 function validateClient($clientId, $phoneNumber, $value) {
-  $servicePath = "/qa/-services-paymentservice-generatecodeqr";
+  $servicePath = "/qa/-services-clientservice-validateclient";
   $body = getBodyValidateClient($GLOBALS['channel'], $clientId, $phoneNumber, $value);
+  /*$servicePath = "/qa/-services-paymentservice-generatecodeqr";
+  $body = getBodyGenerateCodeQR($GLOBALS['channel'], $clientId, $phoneNumber, $value);*/
   $response = makeSignedRequest($GLOBALS['host'], $servicePath, 'POST', $body);  
   if(json_decode($response) == null){
     return $response;
@@ -21,10 +23,36 @@ function validateClient($clientId, $phoneNumber, $value) {
     return json_decode($response);
   }
 }
+
 /**
  * Forma el cuerpo para consumir el servicio de validación de cliente del API
  */
 function getBodyValidateClient($channel, $clientId, $phoneNumber, $value){
+  $messageId =  substr(strval((new DateTime())->getTimestamp()), 0, 9);
+  return array(
+    "RequestMessage"  => array(
+      "RequestHeader"  => array (
+        "Channel" => $channel,
+        "RequestDate" => gmdate("Y-m-d\TH:i:s\\Z"),
+        "MessageID" => $messageId,
+        "ClientID" => $clientId
+      ),
+      "RequestBody"  => array (
+        "any" => array (
+          "validateClientRQ" => array (
+            "phoneNumber" => $phoneNumber,
+            "value" => $value
+          )
+        )
+      )
+    )
+  );
+}
+
+/**
+ * Forma el cuerpo para consumir el servicio de generación de código QR del API
+ */
+function getBodyGenerateCodeQR($channel, $clientId, $phoneNumber, $value){
   $messageId =  substr(strval((new DateTime())->getTimestamp()), 0, 9);
   $body = array(
     "RequestMessage"  => array(
