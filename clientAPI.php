@@ -5,6 +5,8 @@
  */
 include 'awsSigner.php';
 
+//$host = "api.sandbox.nequi.com";
+
 $host = "a7zgalw2j0.execute-api.us-east-1.amazonaws.com";  
 $channel = 'MF-001';
 
@@ -22,6 +24,10 @@ function validateClient($clientId, $phoneNumber, $value) {
 
   /*$servicePath = "/qa/-services-paymentservice-getstatuspayment";
   $body = getBodyGetStatusPaymentRQ($GLOBALS['channel'], $clientId, "C001-10011-066327");
+  $method = 'POST';*/
+
+  /*$servicePath = "/partners/v1/-services-partnersservices-validate";
+  $body = getBodyValidatePartnerRQ($GLOBALS['channel'], $clientId, "NIT", "1");
   $method = 'POST';*/
   
   $response = makeSignedRequest($GLOBALS['host'], $servicePath, $method, $body);  
@@ -116,6 +122,39 @@ function getBodyGetStatusPaymentRQ($channel, $clientId, $qrCode){
         "any" => array(
           "getStatusPaymentRQ" => array(
             "codeQR" => $qrCode
+          )
+        )
+      )
+    )
+  );
+
+  return $body;
+}
+
+/**
+ * Forma el cuerpo para consumir el servicio de validación de comercios del API
+ */
+function getBodyValidatePartnerRQ($channel, $clientId, $type, $id){
+  $messageId = substr(strval((new DateTime())->getTimestamp()), 0, 9);
+  $body = array(
+    "RequestMessage" => array(
+      "RequestHeader" => array(
+        "Channel" => $channel,
+        "RequestDate" => gmdate("Y-m-d\TH:i:s\\Z"),
+        "MessageID" => $messageId,
+        "ClientID" => $clientId,
+        "Destination" => array(
+          "ServiceName" => "PartnersService",
+          "ServiceOperation" => "validatePartner",
+          "ServiceRegion" => "C001",
+          "ServiceVersion" => "1.0.0"
+        )
+      ),
+      "RequestBody" => array(
+        "any" => array(
+          "validatePartnerRQ" => array(
+            "type" => $type,
+            "id" => $id
           )
         )
       )

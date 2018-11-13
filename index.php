@@ -5,8 +5,6 @@
  */
 	include 'clientAPI.php';
 
-	echo "Test consumo API Nequi"."<br>"."<br>";
-
 	/**
    * @todo TODO: Se debe crear el archivo keys.php con el número de teléfono
    */
