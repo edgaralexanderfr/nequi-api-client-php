@@ -5,25 +5,23 @@
  */
 include 'awsSigner.php';
 
-//$host = "api.sandbox.nequi.com";
-
-$host = "a7zgalw2j0.execute-api.us-east-1.amazonaws.com";  
+$host = "api.sandbox.nequi.com";
 $channel = 'MF-001';
 
 /**
  * Encapsula el consumo del servicio de validacion de cliente del API y retorna la respuesta del servicio
  */
 function validateClient($clientId, $phoneNumber, $value) {
-  /*$servicePath = "/qa/-services-clientservice-validateclient";
+  /*$servicePath = "/payments/v1/-services-clientservice-validateclient";
   $body = getBodyValidateClient($GLOBALS['channel'], $clientId, $phoneNumber, $value);
   $method = 'POST';*/
   
-  $servicePath = "/qa/-services-paymentservice-generatecodeqr";
+  $servicePath = "/payments/v1/-services-paymentservice-generatecodeqr";
   $body = getBodyGenerateCodeQR($GLOBALS['channel'], $clientId, $value);
   $method = 'POST';
 
-  /*$servicePath = "/qa/-services-paymentservice-getstatuspayment";
-  $body = getBodyGetStatusPaymentRQ($GLOBALS['channel'], $clientId, "C001-10011-066327");
+  /*$servicePath = "/payments/v1/-services-paymentservice-getstatuspayment";
+  $body = getBodyGetStatusPaymentRQ($GLOBALS['channel'], $clientId, "C001-10011-265729");
   $method = 'POST';*/
 
   /*$servicePath = "/partners/v1/-services-partnersservices-validate";
